@@ -50,3 +50,7 @@ echo
 ssh ${REMOTE_USER}@${TARGET_HOST} 'pip3 install virtualenv'
 echo
 echo "Virtualenv installed"
+
+# Make venv directory and create venv
+ssh ${REMOTE_USER}@${TARGET_HOST} 'mkdir ~/pycar/venv'
+ssh ${REMOTE_USER}@${TARGET_HOST} 'python3 -m virtualenv ~/pycar/venv'
