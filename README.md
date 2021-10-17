@@ -1,5 +1,5 @@
-# PiCar
-Project for a fully functioning, self-driving PiCar
+# pycar
+Project for a fully functioning, self-driving pycar
 
 ## Without CV
 
@@ -8,18 +8,20 @@ Project for a fully functioning, self-driving PiCar
 Requirements:
 1. Ansible on the machine executing the following steps:
 
-1. Flash OS to SD card 
-2. Setup Wifi credentials according to relevant OS settings
-3. Change variable `ansible_password` in `ansible/bootstrap/tasks/main.yml` to default user password 
-4. Run `bootstrap.sh` <TARGET HOST IP> (e.g. bootstrap.sh 192.168.1.20)
+1. Flash DietPi to SD card 
+2. Setup Wifi credentials according to DietPi requirements
+3. Install Python on DietPi: `sudo apt-get install python3 -y`
+4. Change variable `ansible_password` in `ansible/bootstrap/tasks/main.yml` to default user password 
+5. Run `./bootstrap.sh` <TARGET HOST IP> (e.g. bootstrap.sh 192.168.1.20)
+6. Enable I2C throug dietpi-config
 
-### Deploying PiCar
+### Deploying pycar
 
 Requirements:
 1. Ansible on the machine executing the following steps:
 
-1. Bootstrap OS
-2. Run `deploy.sh` <TARGET HOST IP> (e.g. deploy.sh 192.168.1.20)
+1. Bootstrap DietPi (see instructions above)
+2. Run `./deploy.sh` <TARGET HOST IP> (e.g. deploy.sh 192.168.1.20)
    
 
 ## With CV

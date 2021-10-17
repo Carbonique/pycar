@@ -1,26 +1,26 @@
 - hosts: all
-  remote_user: pi
+  remote_user: dietpi
   become: true
 
   tasks:
-  - name: Copy picar directory
+  - name: Copy pycar directory
     copy:
-      src: "{{ playbook_dir }}/picar"
-      dest: /home/pi/picar/picar
-      owner: pi
-      group: pi
+      src: ../pycar
+      dest: /home/dietpi/pycar/pycar
+      owner: dietpi
+      group: dietpi
       force: yes
 
   - name: Copy requirements.txt
     copy:
-      src: requirements.txt
-      dest: /home/pi/picar/requirements.txt
-      owner: pi
-      group: pi
+      src: ../requirements.txt
+      dest: /home/dietpi/pycar/requirements.txt
+      owner: dietpi
+      group: dietpi
       force: yes
 
   - name: Install python virtualenv packages
     pip:
-      virtualenv: /home/pi/picar/venv
+      virtualenv: /home/dietpi/pycar/venv
       virtualenv_site_packages: yes
-      requirements: /home/pi/picar/requirements.txt
+      requirements: /home/dietpi/pycar/requirements.txt
