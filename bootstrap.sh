@@ -40,7 +40,7 @@ echo "ssh restarted"
 # Install python3 and pip
 echo "Installing python3 and pip"
 echo
-ssh ${REMOTE_USER}@${TARGET_HOST} 'sudo apt-get install python3 pip -y'
+ssh ${REMOTE_USER}@${TARGET_HOST} 'sudo apt-get install python-dev python3 pip -y'
 echo
 echo "python3 and pip installed"
 
