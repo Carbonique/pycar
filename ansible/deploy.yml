@@ -1,0 +1,26 @@
+- hosts: all
+  remote_user: pi
+  become: true
+
+  tasks:
+  - name: Copy picar directory
+    copy:
+      src: "{{ playbook_dir }}/picar"
+      dest: /home/pi/picar/picar
+      owner: pi
+      group: pi
+      force: yes
+
+  - name: Copy requirements.txt
+    copy:
+      src: requirements.txt
+      dest: /home/pi/picar/requirements.txt
+      owner: pi
+      group: pi
+      force: yes
+
+  - name: Install python virtualenv packages
+    pip:
+      virtualenv: /home/pi/picar/venv
+      virtualenv_site_packages: yes
+      requirements: /home/pi/picar/requirements.txt
