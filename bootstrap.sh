@@ -1,5 +1,5 @@
 #!/bin/sh
-REMOTE_USER=dietpi
+REMOTE_USER=pi
 TARGET_HOST=192.168.30.15
 
 # Copy SSH key to target host 
@@ -37,12 +37,12 @@ ssh ${REMOTE_USER}@${TARGET_HOST} 'sudo systemctl restart ssh'
 echo
 echo "ssh restarted"
 
-# Install python3 and pip
-echo "Installing python3 and pip"
+echo "Updating and installing pip"
 echo
-ssh ${REMOTE_USER}@${TARGET_HOST} 'sudo apt-get install python-dev python3 pip -y'
+ssh ${REMOTE_USER}@${TARGET_HOST} 'sudo apt-get update && sudo apt-get upgrade'
+ssh ${REMOTE_USER}@${TARGET_HOST} 'sudo apt-get install python3-pip -y'
 echo
-echo "python3 and pip installed"
+echo "Install succesful"
 
 # Install virtualenv
 echo "Installing virtualenv"
@@ -52,5 +52,6 @@ echo
 echo "Virtualenv installed"
 
 # Make venv directory and create venv
+ssh ${REMOTE_USER}@${TARGET_HOST} 'mkdir ~/pycar'
 ssh ${REMOTE_USER}@${TARGET_HOST} 'mkdir ~/pycar/venv'
 ssh ${REMOTE_USER}@${TARGET_HOST} 'python3 -m virtualenv ~/pycar/venv'

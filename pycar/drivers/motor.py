@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import Adafruit_PCA9685
 import time
 
-class Motor(object):
+class Motor:
     
     def __init__(self, direction_channel, pwm_channel):
         "Create a motor object (arguments: direction_channel, pwm_channel"

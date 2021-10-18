@@ -1,7 +1,7 @@
 import Adafruit_PCA9685
 import time
 
-class Servo():
+class Servo:
     "Create a new servo object (channel, servoMinPulse, servoMaxPulse, servoMinAngle, servoMaxAngle, offset"
     
     def __init__(self, channel, servoMinPulse, servoMaxPulse, servoMinAngle, servoMaxAngle, offset):
