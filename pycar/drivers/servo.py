@@ -97,7 +97,8 @@ class Servo:
             return True
                  
     def neutral(self):
-        self.angle = 90     
+        self.angle = 90 #(self._servoMaxAngleOffsetted - self._servoMinAngleOffsetted) 
+        print("Setting to angle" + self.angle)
         
 ##############################################################################
 

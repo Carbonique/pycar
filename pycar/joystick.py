@@ -1,22 +1,16 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Oct 12 20:45:51 2020
-
-@author: luuc
-"""
+from car import Car
 
 import curses
 from curses import wrapper
-from car import car
+from car import Car
 
-car = car()
+car = Car()
 
 def main(screen):
     screen = curses.initscr()
     curses.noecho()
     curses.cbreak()
     screen.keypad(True)
-    screen.addstr("Hello World!!!")
     screen.addstr("PRESS THE ARROW KEYS TO MOVE THE car")
     pan = 90
     tilt = 110
@@ -28,22 +22,22 @@ def main(screen):
         if c == curses.KEY_LEFT:
             screen.addstr(5,10, 'left key pressed')
             pan = pan + 10
-            car.Camera.panServo.angle = pan
+            car.camera.pan = pan
             screen.refresh()
         elif c == curses.KEY_RIGHT:
             screen.addstr(5,50, 'right key pressed')
             pan = pan - 10
-            car.Camera.panServo.angle = pan
+            car.camera.pan = pan
             screen.refresh()
         elif c == curses.KEY_UP:
             screen.addstr(2,30,'UP key pressed')
             tilt = tilt - 10
-            car.Camera.tiltServo.angle = tilt
+            car.camera.tilt = tilt
             screen.refresh()
         elif c == curses.KEY_DOWN:
             screen.addstr(2,30,'DOWN key pressed')
             tilt = tilt + 10
-            car.Camera.tiltServo.angle = tilt
+            car.camera.tilt = tilt
             screen.refresh()
         elif c == ord('w'):   
             screen.addstr(2,30,'W key pressed')
