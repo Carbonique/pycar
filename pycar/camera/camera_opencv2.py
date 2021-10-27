@@ -9,7 +9,7 @@ import sys
 from matplotlib import pyplot as plt
 import glob
 import pickle
-import LineDetection
+
 
 
 class Camera(BaseCamera):

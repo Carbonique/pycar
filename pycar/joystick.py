@@ -53,8 +53,6 @@ def main(screen):
             screen.addstr(2,30,'D key pressed')
             steeringAngle = steeringAngle + 10
             car.front_wheels.angle = steeringAngle
-            car.back_wheels._left_motor.speed =  car.back_wheels._left_motor.speed -10
-            car.back_wheels._right_motor.speed = car.back_wheels._right_motor.speed  +10
             screen.refresh() 
         elif c == ord('a'):   
             screen.addstr(2,30,'A key pressed')

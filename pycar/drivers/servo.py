@@ -4,11 +4,12 @@ import time
 class Servo:
     "Create a new servo object (channel, servoMinPulse, servoMaxPulse, servoMinAngle, servoMaxAngle, offset"
     
-    def __init__(self, channel, servoMinPulse, servoMaxPulse, servoMinAngle, servoMaxAngle, offset):
+    def __init__(self, name, channel, servoMinPulse, servoMaxPulse, servoMinAngle, servoMaxAngle, offset):
 
+        self._name = str(name)
         self._offset = offset
         self._angle = 0
-        
+       
         self._pwm = Adafruit_PCA9685.PCA9685()
         self._pwm_channel = channel
         self._pwm.set_pwm_freq(60)
@@ -23,10 +24,7 @@ class Servo:
         
         self._servoMin = self._servoMinPulse / incrementsPerSecond
         self._servoMax = self._servoMaxPulse / incrementsPerSecond
-        
-        #Set Servo to neutrla
-        #self.neutral()
-        
+
 ##############################################################################
 
 #Functions for calculating pulserange and pulsewidth
@@ -85,20 +83,20 @@ class Servo:
                 
                 #set angle property to user inputted angle
                 self._angle = angle
+                print(f"Setting {self._name} to angle: {str(self.angle)}")
             else:
                 print("Angle outside of range")
     
     def _servo_Not_Already_In_Angle(self, angle):
         "A function that checks whether the servo is already set in the inputted angle"
-        if angle == self.angle:
-            print("Servo already in specified angle")
+        if angle == self._angle:
+            print(f"{self._name} already in specified angle")
             return False         
         else:
             return True
                  
     def neutral(self):
-        self.angle = 90 #(self._servoMaxAngleOffsetted - self._servoMinAngleOffsetted) 
-        print("Setting to angle" + self.angle)
+        self.angle = (self._servoMaxAngleOffsetted + self._servoMinAngleOffsetted) / 2
         
 ##############################################################################
 
