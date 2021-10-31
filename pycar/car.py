@@ -9,6 +9,3 @@ class Car:
         self.front_wheels = Front_Wheels()
 #        self.back_wheels = Back_Wheels()
         self.camera = Camera()
-
-car = Car()
-

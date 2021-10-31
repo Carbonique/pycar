@@ -57,7 +57,6 @@ class Servo:
         "A function that returns the pulse width needed to turn the servo to a specified angle"
         #Return the pulse width needed for a specified angle 
         pulseWidthPerDegree = self._calculate_Pulse_Width_Per_Degree()
-        
         return(self._servoMin + (angle * pulseWidthPerDegree))
 
         

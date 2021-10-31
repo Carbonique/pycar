@@ -24,7 +24,7 @@ class Front_Wheels():
 
     @property
     def angle(self):
-        return self.angle
+        return self.servo.angle
 
     @angle.setter
     def angle(self, angle):
