@@ -2,23 +2,24 @@ import Adafruit_PCA9685
 import time
 
 class Servo:
-    "Create a new servo object (channel, servoMinPulse, servoMaxPulse, servoMinAngle, servoMaxAngle, offset"
+    "Create a new servo object (name, channel, servoMinPulse, servoMaxPulse, servoMinAngle, servoMaxAngle, offset"
     
     def __init__(self, name, channel, servoMinPulse, servoMaxPulse, servoMinAngle, servoMaxAngle, offset):
 
         self._name = str(name)
         self._offset = offset
-        self._angle = 0
+        self._angle = 90
        
         self._pwm = Adafruit_PCA9685.PCA9685()
         self._pwm_channel = channel
-        self._pwm.set_pwm_freq(60)
         
         self._servoMinPulse = servoMinPulse
         self._servoMaxPulse = servoMaxPulse
         self._servoMinAngleOffsetted = servoMinAngle + self._offset
         self._servoMaxAngleOffsetted = servoMaxAngle + self._offset
         
+        self._pwm.set_pwm_freq(60)
+
         #1 second has 16666,7 microseconds (us). A 12-bit pwm has 16666,7/12 = 4096 increments per second
         incrementsPerSecond = 4.096
         
@@ -77,14 +78,14 @@ class Servo:
         if self._servo_Not_Already_In_Angle(angle) is True:
             if self._angle_Within_Range(offsettedAngle):
                 
-                #Move servo to
+                #Move servo to offsetted angle
                 self._move_Servo_To(offsettedAngle)
                 
                 #set angle property to user inputted angle
                 self._angle = angle
                 print(f"Setting {self._name} to angle: {str(self.angle)}")
             else:
-                print("Angle outside of range")
+                print(f"Angle {str(self.angle)} outside of range")
     
     def _servo_Not_Already_In_Angle(self, angle):
         "A function that checks whether the servo is already set in the inputted angle"
@@ -105,7 +106,6 @@ class Servo:
     def _move_Servo_To(self, angle):
         pwm_for_angle = int(self._calculate_Pulse_Width_For_Angle(angle))
         self._pwm.set_pwm(self._pwm_channel, 0, pwm_for_angle)
-    
         
 
 

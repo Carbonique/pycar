@@ -26,10 +26,8 @@ while True:
 
     if data.decode('utf-8') == "left":
         print("true. Is left")
-        angle = car.front_wheels.angle
-        car.front_wheels.angle = angle - 10
+        car.front_wheels.turn_left(1)
 
     if data.decode('utf-8') == "right":
         print("true. Is right")
-        angle = car.front_wheels.angle
-        car.front_wheels.angle = angle + 10
+        car.front_wheels.turn_right(1)

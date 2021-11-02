@@ -29,3 +29,9 @@ class Front_Wheels():
     @angle.setter
     def angle(self, angle):
         self.servo.angle = angle
+
+    def turn_right(self, angle):
+        self.angle = (self.angle + angle)
+
+    def turn_left(self, angle):
+        self.angle = (self.angle - angle)
