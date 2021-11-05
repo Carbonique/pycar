@@ -42,7 +42,7 @@ class Motor:
 ##############################################################################               
 
     def _convert_Speed_To_Pulsewidth(self,speed):
-        "Convert speed given by user to an speed in pulse width"
+        "Convert speed given by user to a speed in pulse width"
         #1 second has 16666,7 microseconds (us). A 12-bit pwm has 16666,7/12 = 4096 increments per second. 
         motor_max_pulse = 4096
         motor_min_pulse = 0
@@ -65,7 +65,7 @@ class Motor:
     def speed(self, speed):
         "Set speed to speed given by user, first checks whether speed is in min max range (argument: speed)"
         if self._is_Speed_In_Min_Max_Range(speed) is True:
-            
+        
             #Motor speed
             self._set_Speed_To(speed)
             

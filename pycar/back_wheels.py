@@ -24,3 +24,6 @@ class Back_Wheels:
         self.right_motor.speed = speed
         self.left_motor.speed = speed
 
+    def drive(self, speed):
+        self.speed = (self.speed + speed)
+

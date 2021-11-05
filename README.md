@@ -1,6 +1,8 @@
 # pycar
 Project for a fully functioning, self-driving pycar
 
+Camera by Miguel Grinberg
+
 ## Without CV
 
 ### Bootstrapping OS
@@ -13,6 +15,7 @@ Requirements:
 3. Change `RERMOTE_USER` and `TARGET_HOST` vars in `bootstrap.sh`
 4. Run `./bootstrap.sh`
 5. Enable I2C throug raspi-config
+6. enable raspicam through raspi-config
 
 ### Deploying pycar
 

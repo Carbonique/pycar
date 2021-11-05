@@ -33,11 +33,11 @@ def main(screen):
             screen.refresh()
         elif c == ord('w'):   
             screen.addstr(2,30,'W key pressed')
-            car.back_wheels.forward(3)
+            car.back_wheels.drive(3)
             screen.refresh()
         elif c == ord('s'):   
             screen.addstr(2,30,'S key pressed')
-            car.back_wheels.reverse(3)
+            car.back_wheels.drive(-3)
             screen.refresh()
         elif c == ord('d'):   
             screen.addstr(2,30,'D key pressed')

@@ -65,3 +65,4 @@ class Camera():
 
     def down(self, angle):
         self.tilt = (self.tilt + angle)
+
