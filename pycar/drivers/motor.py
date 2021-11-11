@@ -6,7 +6,10 @@ class Motor:
     
     def __init__(self, direction_channel, pwm_channel):
         "Create a motor object (arguments: direction_channel, pwm_channel"
-        self._min_speed = 0
+
+        # Best is to keep the min and max of equal size for now (e.g. 10 and -10, 20 and -20)
+        # Some formulas depend on this.
+        self._min_speed = -100
         self._max_speed = 100
         self._speed = 0
         
@@ -16,6 +19,7 @@ class Motor:
         
         self._direction_channel = direction_channel
         GPIO.setup(self._direction_channel, GPIO.OUT)
+        self.direction = None
         
         self._pwm = Adafruit_PCA9685.PCA9685()
         self._pwm.set_pwm_freq(60)
@@ -27,30 +31,39 @@ class Motor:
 
 ##############################################################################           
     
-    def forward(self):
+    def set_forward(self):
         "Set motor direction to forward"
         GPIO.output(self._direction_channel,0)
+        self.direction_is_forward = True
         
-    def reverse(self):
+    def set_reverse(self):
         "Set motor direction to reverse"
         GPIO.output(self._direction_channel,1)
-        
+        self.direction_is_forward = False
+
 ##############################################################################
 
 #Functions for converting speed to pulsewidth
 
 ##############################################################################               
 
-    def _convert_Speed_To_Pulsewidth(self,speed):
+    def _convert_Speed_To_Pulsewidth(self, speed):
         "Convert speed given by user to a speed in pulse width"
         #1 second has 16666,7 microseconds (us). A 12-bit pwm has 16666,7/12 = 4096 increments per second. 
-        motor_max_pulse = 4096
+        motor_max_pulse = 4096 
         motor_min_pulse = 0
 
-        return int((speed - self._min_speed) * (motor_max_pulse - motor_min_pulse) / (self._max_speed - self._min_speed) + motor_min_pulse)
-    
+        pulse = int((speed - 0) * (motor_max_pulse - motor_min_pulse) / (self._max_speed - 0) + motor_min_pulse)
+
+        # When the car is in reverse the pulse calculation will result in a negative value.
+        # That negative value has to be inverted.
+        if self.direction_is_forward is False:
+            pulse = pulse * -1
+  
+        return pulse
+
     def _is_Speed_In_Min_Max_Range(self, speed):
-        return speed in range(self._min_speed, self._max_speed)
+        return speed in range(-100, 100)
 
 ##############################################################################
 
@@ -64,8 +77,13 @@ class Motor:
     @speed.setter
     def speed(self, speed):
         "Set speed to speed given by user, first checks whether speed is in min max range (argument: speed)"
+        if speed <= 0:
+            self.set_reverse()
+        else:
+            self.set_forward()
+
         if self._is_Speed_In_Min_Max_Range(speed) is True:
-        
+
             #Motor speed
             self._set_Speed_To(speed)
             

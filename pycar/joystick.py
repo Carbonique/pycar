@@ -32,12 +32,12 @@ def main(screen):
             car.camera.down(3)
             screen.refresh()
         elif c == ord('w'):   
-            screen.addstr(2,30,'W key pressed')
-            car.back_wheels.drive(3)
+            screen.addstr(2,30,'Forward/brake key pressed')
+            car.back_wheels.change_speed_by(3)
             screen.refresh()
         elif c == ord('s'):   
-            screen.addstr(2,30,'S key pressed')
-            car.back_wheels.drive(-3)
+            screen.addstr(2,30,'Reverse/brake key pressed')
+            car.back_wheels.change_speed_by(-3)
             screen.refresh()
         elif c == ord('d'):   
             screen.addstr(2,30,'D key pressed')
@@ -48,11 +48,5 @@ def main(screen):
             car.front_wheels.turn_left(3)
             screen.refresh() 
             
-
-    curses.nobreak()
-    screen.keypad(False) # Enable keypad Mode
-    curses.echo()
-    curses.endwin()
-
        
 wrapper(main)    

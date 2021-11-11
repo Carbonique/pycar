@@ -15,6 +15,7 @@ class Back_Wheels:
         self.left_motor = Motor(self._bcm_left_motor, self._pwm_channel_left_motor)
         self.right_motor = Motor(self._bcm_right_motor,self._pwm_channel_right_motor)
 
+
     @property
     def speed(self):
         return (self.right_motor.speed + self.left_motor.speed) / 2
@@ -24,6 +25,5 @@ class Back_Wheels:
         self.right_motor.speed = speed
         self.left_motor.speed = speed
 
-    def drive(self, speed):
+    def change_speed_by(self, speed):
         self.speed = (self.speed + speed)
-
