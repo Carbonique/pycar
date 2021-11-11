@@ -42,13 +42,11 @@ while True:
     if data.decode('utf-8') == "camera_down":
         car.camera.up(3)    
 
-    if data.decode('utf-8') == "forward":
-        car.back_wheels.forward(3)
+    if data.decode('utf-8') == "forward/brake":
+        car.back_wheels.change_speed_by(3)
 
-    if data.decode('utf-8') == "brake":
-        car.back_wheels.forward(-3)
+    if data.decode('utf-8') == "reverse/brake":
+        car.back_wheels.change_speed_by(-3)
 
-    if data.decode('utf-8') == "reverse":
-        car.back_wheels.reverse(3)
 
 
