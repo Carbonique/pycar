@@ -53,13 +53,12 @@ class Motor:
         motor_max_pulse = 4096 
         motor_min_pulse = 0
 
-        pulse = int((speed - 0) * (motor_max_pulse - motor_min_pulse) / (self._max_speed - 0) + motor_min_pulse)
+        if self.direction_is_forward:
+            # if car is forward use the max speed, else min speed
+            pulse = int((speed - 0) * (motor_max_pulse - motor_min_pulse) / (self._max_speed - 0) + motor_min_pulse)
+        else:
+            pulse = int((speed - 0) * (motor_max_pulse - motor_min_pulse) / (self._min_speed - 0) + motor_min_pulse)
 
-        # When the car is in reverse the pulse calculation will result in a negative value.
-        # That negative value has to be inverted.
-        if self.direction_is_forward is False:
-            pulse = pulse * -1
-  
         return pulse
 
     def _is_Speed_In_Min_Max_Range(self, speed):
@@ -90,13 +89,8 @@ class Motor:
             #Set speed property
             self._speed = speed
         else: 
-            print("Speed {} is not in min max range: {} - {}".format(speed, self._min_speed, self._max_speed))
+            print(f"Speed {speed} is not in min max range: {self._min_speed} - {self._max_speed}")
         
-    def stop(self):
-        "Stop car (= set speed to 0)"
-        self.speed = 0
-
-
 ##############################################################################
 
 #Helper functions

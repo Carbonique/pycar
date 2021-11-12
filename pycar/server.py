@@ -24,12 +24,6 @@ while True:
     data, address = s.recvfrom(4096)
     print("\n\n 2. Server received: ", data.decode('utf-8'), "\n\n")
 
-    if data.decode('utf-8') == "car_left":
-        car.front_wheels.turn_left(3)
-
-    if data.decode('utf-8') == "car_right":
-        car.front_wheels.turn_right(3)
-    
     if data.decode('utf-8') == "camera_right":
         car.camera.right(3)
     
@@ -37,10 +31,10 @@ while True:
         car.camera.left(3)
 
     if data.decode('utf-8') == "camera_up":
-        car.camera.down(3)
+        car.camera.up(3)
     
     if data.decode('utf-8') == "camera_down":
-        car.camera.up(3)    
+        car.camera.down(3)    
 
     if data.decode('utf-8') == "forward/brake":
         car.back_wheels.change_speed_by(3)
@@ -48,5 +42,12 @@ while True:
     if data.decode('utf-8') == "reverse/brake":
         car.back_wheels.change_speed_by(-3)
 
+    if data.decode('utf-8') == "car_left":
+        car.front_wheels.turn_left(3)
 
+    if data.decode('utf-8') == "car_right":
+        car.front_wheels.turn_right(3)
+    
+    if data.decode('utf-8') == "car_stop":
+        car.back_wheels.stop()
 

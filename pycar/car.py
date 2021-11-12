@@ -1,4 +1,3 @@
-from drivers.servo import Servo
 from back_wheels import Back_Wheels
 from front_wheels import Front_Wheels
 from camera import Camera

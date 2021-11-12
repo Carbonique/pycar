@@ -27,3 +27,6 @@ class Back_Wheels:
 
     def change_speed_by(self, speed):
         self.speed = (self.speed + speed)
+
+    def stop(self):
+        self.speed = 0
