@@ -1,4 +1,5 @@
 from pyPS4Controller.controller import Controller
+from pyPS4Controller.event_mapping.DefaultMapping import DefaultMapping
 import socket
 import sys
 
@@ -20,9 +21,6 @@ class MyController(Controller):
     def on_R3_down(self, value):
         self.send_udp("camera_down")
 
-    def on_R3_x_at_rest(self, value):
-        print(value)
-
     def on_R3_left(self, value):
         self.send_udp("camera_left")
 
@@ -41,6 +39,8 @@ class MyController(Controller):
     def send_udp(self, payload):
         self.s.sendto(payload.encode('utf-8'), ("192.168.30.15", 5000))
         print("\n\n Client Sent : ", payload, "\n\n")
+
+
 
 #if len(sys.argv) == 3:
     # Get "IP address of Server" and also the "port number" from argument 1 and argument 2
