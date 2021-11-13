@@ -4,15 +4,14 @@
 // Set WiFi credentials
 #define WIFI_SSID "IndiaOscarTango"
 #define WIFI_PASS ""
-#define REMOTE_IP ""
-#define REMOTE_PORT 5005
-
 
 // UDP
 WiFiUDP UDP;
 char packet[255];
 char reply[] = "Packet received!";
-  
+char remote_ip = ""
+int remote_port = 5000
+
 void setup() {
   // Setup serial port
   Serial.begin(115200);

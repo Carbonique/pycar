@@ -25,29 +25,28 @@ while True:
     print("\n\n 2. Server received: ", data.decode('utf-8'), "\n\n")
 
     if data.decode('utf-8') == "camera_right":
-        car.camera.right(3)
-    
+        car.camera.right(1)
+
     if data.decode('utf-8') == "camera_left":
-        car.camera.left(3)
+        car.camera.left(1)
 
     if data.decode('utf-8') == "camera_up":
-        car.camera.up(3)
-    
+        car.camera.up(1)
+
     if data.decode('utf-8') == "camera_down":
-        car.camera.down(3)    
+        car.camera.down(1)
 
     if data.decode('utf-8') == "forward/brake":
-        car.back_wheels.change_speed_by(3)
+        car.back_wheels.change_speed_by(1)
 
     if data.decode('utf-8') == "reverse/brake":
         car.back_wheels.change_speed_by(-3)
 
     if data.decode('utf-8') == "car_left":
-        car.front_wheels.turn_left(3)
+        car.front_wheels.turn_left(1)
 
     if data.decode('utf-8') == "car_right":
-        car.front_wheels.turn_right(3)
-    
+        car.front_wheels.turn_right(1)
+
     if data.decode('utf-8') == "car_stop":
         car.back_wheels.stop()
-
