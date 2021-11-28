@@ -7,8 +7,8 @@ class Camera():
         self._pan_pwm_channel = 1
         self._pan_servo_min_pulse = 500
         self._pan_servo_max_pulse = 2500
-        self._pan_servo_min_angle = 1
-        self._pan_servo_max_angle = 179
+        self._pan_servo_min_angle = 40
+        self._pan_servo_max_angle = 140
 
         self._tilt_pwm_channel = 2
         self._tilt_servo_min_pulse = 1000

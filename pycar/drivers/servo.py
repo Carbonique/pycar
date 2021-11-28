@@ -3,8 +3,7 @@ from board import SCL, SDA
 import busio
 import time
 
-# Credits to https://docs.onion.io/omega2-maker-kit/maker-kit-servo-controlling-servo.html
-# for explaining most of the logic in this class
+# Based on https://github.com/adafruit/Adafruit_CircuitPython_Motor/blob/main/adafruit_motor/servo.py
 
 class Servo:
 
@@ -12,7 +11,6 @@ class Servo:
         "Create a new servo object (name, channel, servoMinPulse, servoMaxPulse"
 
         self._name = str(name)
-        self._angle = 90
 
         i2c_bus = busio.I2C(SCL, SDA)
         self._pca = PCA9685(i2c_bus)
@@ -24,17 +22,16 @@ class Servo:
         self._max_pulse = max_pulse
         self._pulse_range = self._max_pulse - self._min_pulse
 
+        self._min_duty = int((min_pulse * self._pca.frequency) / 1000000 * 0xFFFF)
+        self._max_duty = (max_pulse * self._pca.frequency) / 1000000 * 0xFFFF
+        self._duty_range = int(self._max_duty  - self._min_duty)
+
         # Calculate ranges in degrees
         self._min_angle = min_angle
         self._max_angle = max_angle
+        self._actuation_range = 180
 
-        # Calculate the step (us / degree)
-        self._step = self._pulse_range / 180 #135 is the actuation range for the servo. 135 is arbitrary. Modern servos can reach 180 degrees range
-
-        # Calculate the period (in us)
-        self._period = (1000000 / self._pca.frequency)
-
-
+        self.angle = 90
 ##############################################################################
 
 #Functions for setting angles
@@ -53,9 +50,9 @@ class Servo:
             self._pca.channels[self._pca_channel].duty_cycle = int(self._convert_angle_to_duty_cycle(angle))
 
             self._angle = angle
-
+            print(f"Setting {self._name} to angle {angle}")
         else:
-            print(f"Angle {angle} is not in min max range: {self._min_angle} - {self._max_angle}")
+            print(f"{self._name} angle {angle} is not in min max range: {self._min_angle} - {self._max_angle}")
 
 
 ##############################################################################
@@ -66,13 +63,8 @@ class Servo:
 
     def _convert_angle_to_duty_cycle(self, angle):
         "Convert angle given by user to duty cycle"
-
-        pulse_width = angle * self._step + self._min_pulse
-
-        duty = (pulse_width * 100) / self._period
-        print(duty)
-        return duty
-
+        fraction = angle / self._actuation_range
+        return self._min_duty + int(fraction * self._duty_range)
 ##############################################################################
 
 #Helper
