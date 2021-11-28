@@ -3,6 +3,7 @@
 Project for a fully functioning RC car written in Python and controlled by a Dualshock 4 controller
 
 
+
 ## Prerequisites
 1. [Sunfounder PiCar-V](https://www.sunfounder.com/products/smart-video-car)
 2. Dualshock 4 controller connected using pyPS4Controller
