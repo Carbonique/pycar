@@ -10,9 +10,9 @@ Camera by Miguel Grinberg
 Requirements:
 1. Ansible on the machine executing the following steps:
 
-1. Flash RP OS lite to SD card 
-2. Setup Wifi credentials according to requirements
-3. Change `RERMOTE_USER` and `TARGET_HOST` vars in `bootstrap.sh`
+1. Flash RP OS lite to SD card
+2. Setup Wifi and ssh according to OS instructions
+3. Change `REMOTE_USER` and `TARGET_HOST` vars in `bootstrap.sh`
 4. Run `./bootstrap.sh`
 5. Enable I2C throug raspi-config
 6. enable raspicam through raspi-config
@@ -22,9 +22,9 @@ Requirements:
 Requirements:
 1. Bootstrap DietPi (see instructions above)
 
-1. Change `RERMOTE_USER` and `TARGET_HOST` vars in `deploy.sh`
-2. Run `./deploy.sh` 
-   
+1. Change `REMOTE_USER` and `TARGET_HOST` vars in `deploy.sh`
+2. Run `./deploy.sh`
+
 
 ## With CV
 
@@ -43,5 +43,3 @@ Requirements:
 3. Optional: assign static IP
 4. Change password
 5. Expand filesystem
-
-

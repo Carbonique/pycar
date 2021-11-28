@@ -1,41 +1,49 @@
 import RPi.GPIO as GPIO
-import Adafruit_PCA9685
+from adafruit_pca9685 import PCA9685
+from board import SCL, SDA
+import busio
 import time
 
 class Motor:
-    
-    def __init__(self, direction_channel, pwm_channel):
-        "Create a motor object (arguments: direction_channel, pwm_channel"
+
+    def __init__(self, direction_channel, pca_channel):
+        "Create a motor object (arguments: direction_channel, pca_channel"
 
         # Best is to keep the min and max of equal size for now (e.g. 10 and -10, 20 and -20)
         # Some formulas depend on this.
         self._min_speed = -100
         self._max_speed = 100
         self._speed = 0
-        
+
         #Setting GPIO pins
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
-        
+
         self._direction_channel = direction_channel
         GPIO.setup(self._direction_channel, GPIO.OUT)
         self.direction = None
-        
-        self._pwm = Adafruit_PCA9685.PCA9685()
-        self._pwm.set_pwm_freq(60)
-        self._pwm_channel = pwm_channel
-        
+
+        i2c_bus = busio.I2C(SCL, SDA)
+        self._pca = PCA9685(i2c_bus)
+        self._pca.frequency = 60
+        self._pca_channel = pca_channel
+
+        # Duty_cycle is 16 bits to match other PWM objects
+        # But the PCA9685 will only actually give 12 bits of resolution.
+        self._pca_min_duty_cycle = 0
+        self._pca_max_duty_cycle = 0xFFFF
+
 ##############################################################################
 
 #Functions for setting motor directions
 
-##############################################################################           
-    
+##############################################################################
+
     def set_forward(self):
         "Set motor direction to forward"
         GPIO.output(self._direction_channel,0)
         self.direction_is_forward = True
-        
+
     def set_reverse(self):
         "Set motor direction to reverse"
         GPIO.output(self._direction_channel,1)
@@ -43,59 +51,46 @@ class Motor:
 
 ##############################################################################
 
-#Functions for converting speed to pulsewidth
-
-##############################################################################               
-
-    def _convert_Speed_To_Pulsewidth(self, speed):
-        "Convert speed given by user to a speed in pulse width"
-        #1 second has 16666,7 microseconds (us). A 12-bit pwm has 16666,7/12 = 4096 increments per second. 
-        motor_max_pulse = 4096 
-        motor_min_pulse = 0
-
-        if self.direction_is_forward:
-            # if car is forward use the max speed, else min speed
-            pulse = int((speed - 0) * (motor_max_pulse - motor_min_pulse) / (self._max_speed - 0) + motor_min_pulse)
-        else:
-            pulse = int((speed - 0) * (motor_max_pulse - motor_min_pulse) / (self._min_speed - 0) + motor_min_pulse)
-
-        return pulse
-
-    def _is_Speed_In_Min_Max_Range(self, speed):
-        return speed in range(-100, 100)
+#Functions for setting speeds
 
 ##############################################################################
 
-#Functions for setting speeds
-
-##############################################################################       
     @property
     def speed(self):
         return self._speed
-    
+
     @speed.setter
     def speed(self, speed):
-        "Set speed to speed given by user, first checks whether speed is in min max range (argument: speed)"
+        "Set speed to speed given by user (argument: speed)"
         if speed <= 0:
             self.set_reverse()
         else:
             self.set_forward()
 
-        if self._is_Speed_In_Min_Max_Range(speed) is True:
+        if self._min_speed <= speed <= self._max_speed: #interval comparison (same as if-statement in range, but faster)
 
             #Motor speed
-            self._set_Speed_To(speed)
-            
+            self._pca.channels[self._pca_channel].duty_cycle = self._convert_speed_to_duty_cycle(speed)
+
             #Set speed property
             self._speed = speed
-        else: 
+
+        else:
             print(f"Speed {speed} is not in min max range: {self._min_speed} - {self._max_speed}")
-        
+
 ##############################################################################
 
-#Helper functions
+#Function for converting speed to duty cycle
 
-##############################################################################            
-    def _set_Speed_To(self, speed):
-        speedInPwm = self._convert_Speed_To_Pulsewidth(speed)
-        self._pwm.set_pwm(self._pwm_channel, 0, speedInPwm)     
+##############################################################################
+
+    def _convert_speed_to_duty_cycle(self, speed):
+        "Convert speed given by user to duty cycle"
+        if speed == 0:
+            relative_speed = 0
+        elif speed > 0:
+            relative_speed = speed / self._max_speed
+        else:
+            relative_speed  = speed / self._min_speed
+
+        return int(self._pca_max_duty_cycle * relative_speed)

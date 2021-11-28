@@ -1,7 +1,7 @@
 from drivers.servo import Servo
 
 class Front_Wheels():
-    
+
     def __init__(self):
         #PWM and specs for steering servo
         self._pwm_channel_steer = 0
@@ -9,15 +9,13 @@ class Front_Wheels():
         self._servo_max_pulse_steer = 2500
         self._servo_min_angle_steer = 40
         self._servo_max_angle_steer = 140
-        self._servo_offset_steer = 0
 
         self.servo = Servo(     "front wheels",
-                                self._pwm_channel_steer, 
-                                self._servo_min_pulse_steer, 
+                                self._pwm_channel_steer,
+                                self._servo_min_pulse_steer,
                                 self._servo_max_pulse_steer,
                                 self._servo_min_angle_steer,
-                                self._servo_max_angle_steer,
-                                self._servo_offset_steer
+                                self._servo_max_angle_steer
                                 )
 
         self.servo.neutral()

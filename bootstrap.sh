@@ -2,11 +2,11 @@
 REMOTE_USER=pi
 TARGET_HOST=192.168.30.15
 
-# Copy SSH key to target host 
+# Copy SSH key to target host
 
 echo "Copying SSH key to target host"
 echo
-ssh-copy-id ${REMOTE_USER}@${TARGET_HOST} 
+ssh-copy-id ${REMOTE_USER}@${TARGET_HOST}
 echo
 echo "Done copying"
 
@@ -39,7 +39,7 @@ echo "ssh restarted"
 
 echo "Updating and installing pip"
 echo
-ssh ${REMOTE_USER}@${TARGET_HOST} 'sudo apt-get update && sudo apt-get upgrade'
+ssh ${REMOTE_USER}@${TARGET_HOST} 'sudo apt-get update && sudo apt-get upgrade -y'
 ssh ${REMOTE_USER}@${TARGET_HOST} 'sudo apt-get install python3-pip -y'
 echo
 echo "Install succesful"

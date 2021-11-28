@@ -15,8 +15,8 @@ HTML="""
 def main():
     StreamProps = ps.StreamProps
     StreamProps.set_Page(StreamProps,HTML)
-    address = ('IP ADDRESS HERE',9000) # Enter your IP address 
-    StreamProps.set_Mode(StreamProps,'picamera')    
+    address = ('IP ADDRESS HERE',9000) # Enter your IP address
+    StreamProps.set_Mode(StreamProps,'picamera')
     with picamera.PiCamera(resolution='640x480', framerate=30) as camera:
         output = ps.StreamOut()
         StreamProps.set_Output(StreamProps,output)
@@ -28,7 +28,7 @@ def main():
             server.serve_forever()
         finally:
             camera.stop_recording()
-   
-        
+
+
 if __name__=='__main__':
     main()

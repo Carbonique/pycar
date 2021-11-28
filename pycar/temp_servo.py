@@ -12,6 +12,7 @@ class Servo:
         "Create a new servo object (name, channel, servoMinPulse, servoMaxPulse"
 
         self._name = str(name)
+        self._offset = offset
         self._angle = 90
 
         i2c_bus = busio.I2C(SCL, SDA)
@@ -20,8 +21,8 @@ class Servo:
         self._pca_channel = pca_channel
 
         # Calculate pulse ranges
-        self._min_pulse = min_pulse
-        self._max_pulse = max_pulse
+        self.min_pulse = min_pulse
+        self.max_pulse = max_pulse
         self._pulse_range = self._max_pulse - self._min_pulse
 
         # Calculate ranges in degrees
@@ -29,10 +30,10 @@ class Servo:
         self._max_angle = max_angle
 
         # Calculate the step (us / degree)
-        self._step = self._pulse_range / 180 #135 is the actuation range for the servo. 135 is arbitrary. Modern servos can reach 180 degrees range
+        self.step = self._pulse_range / 135 #135 is the actuation range for the servo. 135 is arbitrary. Modern servos can reach 180 degrees range
 
         # Calculate the period (in us)
-        self._period = (1000000 / self._pca.frequency)
+        self.period = (1000000 / self._pca.frequency)
 
 
 ##############################################################################
@@ -50,34 +51,18 @@ class Servo:
         if self._min_angle <= angle <= self._max_angle: #interval comparison (same as if-statement in range, but faster)
 
             #Move to angle
-            self._pca.channels[self._pca_channel].duty_cycle = int(self._convert_angle_to_duty_cycle(angle))
+            self._pca.channels[self._pca_channel].duty_cycle = self._convert_angle_to_duty_cycle(angle)
 
             self._angle = angle
 
         else:
             print(f"Angle {angle} is not in min max range: {self._min_angle} - {self._max_angle}")
 
-
-##############################################################################
-
-#Function for converting angle to duty cycle
-
-##############################################################################
-
     def _convert_angle_to_duty_cycle(self, angle):
         "Convert angle given by user to duty cycle"
 
-        pulse_width = angle * self._step + self._min_pulse
+        pulse_width = angle * self.step + self.min_pulse
 
-        duty = (pulse_width * 100) / self._period
-        print(duty)
+        duty = (pulseWidth * 100) / float(self.period)
+
         return duty
-
-##############################################################################
-
-#Helper
-
-##############################################################################
-
-    def neutral(self):
-        self.angle = 90

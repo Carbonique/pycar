@@ -40,7 +40,7 @@ while True:
         car.back_wheels.change_speed_by(1)
 
     if data.decode('utf-8') == "reverse/brake":
-        car.back_wheels.change_speed_by(-3)
+        car.back_wheels.change_speed_by(-1)
 
     if data.decode('utf-8') == "car_left":
         car.front_wheels.turn_left(1)
