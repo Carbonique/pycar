@@ -1,34 +1,25 @@
-import picamera
-import pyshine as ps #  pip3 install pyshine==0.0.9
-HTML="""
-<html>
-<head>
-<title>PyShine Live Streaming</title>
-</head>
-
-<body>
-<center><h1> PyShine Live Streaming using OpenCV </h1></center>
-<center><img src="stream.mjpg" width='640' height='480' autoplay playsinline></center>
-</body>
-</html>
-"""
-def main():
-    StreamProps = ps.StreamProps
-    StreamProps.set_Page(StreamProps,HTML)
-    address = ('IP ADDRESS HERE',9000) # Enter your IP address
-    StreamProps.set_Mode(StreamProps,'picamera')
-    with picamera.PiCamera(resolution='640x480', framerate=30) as camera:
-        output = ps.StreamOut()
-        StreamProps.set_Output(StreamProps,output)
-        camera.rotation = 90
-        camera.start_recording(output, format='mjpeg')
-        try:
-            server = ps.Streamer(address, StreamProps)
-            print('Server started at','http://'+address[0]+':'+str(address[1]))
-            server.serve_forever()
-        finally:
-            camera.stop_recording()
-
-
-if __name__=='__main__':
-    main()
+# import the necessary packages
+from picamera.array import PiRGBArray
+from picamera import PiCamera
+import time
+import cv2
+# initialize the camera and grab a reference to the raw camera capture
+camera = PiCamera()
+camera.resolution = (640, 480)
+camera.framerate = 32
+rawCapture = PiRGBArray(camera, size=(640, 480))
+# allow the camera to warmup
+time.sleep(0.1)
+# capture frames from the camera
+for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
+	# grab the raw NumPy array representing the image, then initialize the timestamp
+	# and occupied/unoccupied text
+	image = frame.array
+	# show the frame
+	cv2.imshow("Frame", image)
+	key = cv2.waitKey(1) & 0xFF
+	# clear the stream in preparation for the next frame
+	rawCapture.truncate(0)
+	# if the `q` key was pressed, break from the loop
+	if key == ord("q"):
+		break

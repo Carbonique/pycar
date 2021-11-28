@@ -65,11 +65,3 @@ class Servo:
         "Convert angle given by user to duty cycle"
         fraction = angle / self._actuation_range
         return self._min_duty + int(fraction * self._duty_range)
-##############################################################################
-
-#Helper
-
-##############################################################################
-
-    def neutral(self):
-        self.angle = 90

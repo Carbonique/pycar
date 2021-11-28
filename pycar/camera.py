@@ -23,7 +23,6 @@ class Camera():
                                 self._pan_servo_min_angle,
                                 self._pan_servo_max_angle
                                 )
-        self._panServo.neutral()
 
         self._tiltServo = Servo( "camera (tilt)",
                                 self._tilt_pwm_channel,
@@ -32,7 +31,6 @@ class Camera():
                                 self._tilt_servo_min_angle,
                                 self._tilt_servo_max_angle
                                 )
-        self._tiltServo.neutral()
 
     @property
     def pan(self):

@@ -18,8 +18,6 @@ class Front_Wheels():
                                 self._servo_max_angle_steer
                                 )
 
-        self.servo.neutral()
-
     @property
     def angle(self):
         return self.servo.angle
